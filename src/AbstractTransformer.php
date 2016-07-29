@@ -4,6 +4,7 @@ namespace Themsaid\Transformers;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection as SupportCollection;
 
 class AbstractTransformer
 {
@@ -31,7 +32,8 @@ class AbstractTransformer
     {
         $static = new static($options);
 
-        if ($modelOrCollection instanceof Collection) {
+        if (($modelOrCollection instanceof Collection) ||
+            ($modelOrCollection instanceof SupportCollection)) {
             return $modelOrCollection->map([$static, 'transformModel'])->toArray();
         }
 
@@ -69,7 +71,7 @@ class AbstractTransformer
      *
      * @return mixed
      */
-    protected function transformModel(Model $modelOrCollection)
+    protected function transformModel($modelOrCollection)
     {
     }
 }
